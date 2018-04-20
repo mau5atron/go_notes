@@ -527,6 +527,246 @@ m1["Hello"] = "Salut" // m1 changes the value of "Hello" to "Salut"
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+// make, new
+
+// make performs memory allocation for built-in models, such as map, slicem, 
+// and channel.
+
+//"while new" is for types' memory allocation.
+
+// "new(T)" allocates zero-value to type T's  memory, returns its memory address,
+// which is the value of type *T. 
+
+// It then returns a pointer which points to type T's zero-value.
+
+// "new" returns pointers
+
+
+// the built it function 
+make(T, args) 
+// has different purposes than new(T)
+
+// "make" can be used for slice, map, and channel, and returns a type T with an 
+// initial value. The reason for doing this is because the underlying data of these three
+// types must be initialized before they point to them. 
+
+// Example: a "slice" contains a pointer that points to the underlying array 
+//, length and capacity
+// Before these are initialized, "slice" is nil, so for "slice", "map", and "channel"
+make // initializes their underlying data and assigns some suitable values.
+
+make // returns non-zero values.
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// RECAP
+
+int  	0 
+int8 	0
+int32  	0
+int64	0
+uint 	0x0
+rune  	0 // actual type is int32
+byte 	0x0 // actual type is uint8
+float32 0 // length is 4 byte
+float64 0 // length is 8 byte
+bool    false
+string  ""	
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// CONTROL STATEMENTS AND FUNCTIONS 
+
+// CONTROL STATEMENT
+
+if 
+
+// "if" does not need parenthesis in Go. 
+if x > 10 {
+	// When x is greater than 10 the program enters this block
+	fmt.Println("x is greater than 10")
+} else {
+	// when x is less than or equal to 10
+	fmt.Println("x is less than or equal to 10")
+}
+
+
+// else ifs
+if integer == 3 {
+	fmt.Println("The int is equal to 3")
+} else if integer < 3 {
+	fmt.Println("The int is less than 3")
+} else {
+	fmt.Println("The int is greater than 3")
+}
+
+
+// GOTO
+// Go has a goto keyword, but take caution when using it. 
+goto // reroutes the control flow to a previously defined label within the body of the same code block
+
+func myFunc(){
+	i := 0 
+Here: // label ends with ":"
+	fmt.Println(i)
+	i++
+	goto Here // jumps to label 'Here'
+}
+
+
+// label name is case sensitive 
+
+
+
+// Go does not have a while, nor a do while, only a 'for', which happens to be 
+// the most powerful control logic.
+
+// It is possible to read data in loops and iterative operations, just like while.
+// Like 'if', for does not need parenthesis.
+
+for expression1; expression2; expression3 {
+	// stuff here
+}
+
+// EXAMPLES
+
+package main 
+import "fmt"
+
+func main(){
+	sum := 0
+	for index:=0; index < 10; index++{
+		sum += index
+	}
+
+	fmt.Println("Sum is equal to ", sum)
+}
+
+// prints out: Sum is equal to 45
+
+// ANOTHER ONE
+sum := 1
+for ; sum < 1000; {
+	sum += sum
+}
+
+for {
+	// this is an infinite loop
+}
+
+// Using 'for' like a 'while' loop
+
+sum := 1 
+
+for sum < 1000 {
+	sum += sum
+}
+
+
+
+// BREAKS 
+
+// Break jumps out of the loop. If you have nested loops, use break along with labels.
+// 'continue' skips the current loop and starts the next one.
+
+for index := 10; index > 0; index-- {
+	if index == 5 {
+		break // or continue 
+	}
+
+	fmt.Println(index)
+}
+
+// break prints out :  109876
+// continue prints out: 1098764321 // skips over the number 5
+
+for // can read data from slice and map when it is used together with range.
+
+for k, v:=range map {
+	fmt.Println("map's key:", k)
+	fmt.Println("map's value:", v)
+}
+
+// Because go supports multi-value returns and gives compile errors when you don't use 
+// values taht were defined, as discussed earlier, _ is used to discard certain return values
+
+
+for _. v := range map {
+	fmt.Println("map's value:", v)
+}
+
+
+
+
+// Switch
+
+// Use switch to avoid long if-else statements uwu 
+
+switch sExpression {
+
+case expression1:
+	some stuff
+case expression2:
+	some other stuff
+case expression3:
+	some other other stuff
+default: 
+	other code
+}
+
+// EXAMPLE
+
+i := 10 
+switch i {
+case 1: 
+	fmt.Println("i is equal to 1")	
+case 2, 3, 4: 
+	fmt.Println("i is equal to 2, 3, or 4")
+case 10: 
+	fmt.Println("i is equal to 10")
+default: 
+	fmt.Println("D A W G all I know is that i is an integer")
+}
+
+// Cases can have more than one value separated by a comma. By default switch executes 
+// only the matching case, however, we can make switch execute th matching case and all cases 
+// below it using the 'fallthrough' statement.
+
+// EXAMPLE fallthrough statement
+
+integer := 6
+switch integer {
+case 4: 
+	fmt.Println("Integer <= 4")
+case 5: 
+	fmt.Println("Integer <= 5")
+case 6: 
+	fmt.Println("Integer <= 6")
+case 7: 
+	fmt.Println("Integer <= 7")
+case 8: 
+	fmt.Println("Integer <= 8")
+default: 
+	fmt.Println("default case")
+}
+
+// The program prints the following: 
+// integer <= 6 integer <= 7 integer <= 8 default case
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
