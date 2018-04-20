@@ -1225,10 +1225,86 @@ type Product struct {
 	'itemID' -- is an int used to store for reference. 
 	'cost' -- is a float 32 of the item
 	'isAvailable' -- is a 'bool' which is true if the item is in stock, false, otherwise.
+	'inventoryLeft' -- is an int of the number of products left in stock 
 */ 
 
+// Initializing
+
+// Struct example
+
+// 1. Define goBook as a Product Type
+	var goBook Product
+
+// 2. Assign "Webapps in Go" to the field 'name' of goBook
+	goBook.name = "Webapps in Go"
+
+// 3. Assign 10025 to field 'itemID' of goBook
+	goBook.itemID = 10025
+
+// 4. Access field 'name' of goBook
+	fmt.Printf("The product's name is %s\n", goBook.name)
 
 
+
+
+// There are three more ways to define a struct 
+	// - Assign initial values by order 
+
+goBook := Product("Webapps in Go", 10025)
+
+	// - Use the format 'field:value' to initialize the struct without order
+
+goBook := Product{name:"Webapps in Go", item:10025, cost:100} 
+
+	// - name an annonymous struct, then initialize it
+
+p := struct{name string; age init}{"Amy", 18}
+
+// Full example below
+
+// file code/Struct/Book/struct.go
+
+package main
+
+import "fmt"
+
+// Product will denote a physical *object*
+
+// which we will sell online to make some currency boi 😹👌👌👌
+
+type Product struct {
+	name 			string
+	itemID			int 
+	cost 			float32
+	isAvailable		bool
+	inventoryLeft	int
+}
+
+func main(){
+	var goBook Product
+
+	// we initialize 
+
+	goBook.name, goBook.itemID, goBook.isAvailable, goBook.inventoryLeft = "Webapps in Go", 10025, true, 25
+
+	// initialize four values by format "field:value"
+	pythonBook := Product{itemID: 10026, name: "Learn Python", inventoryLeft: 0, isAvailable: false}
+
+	// initialize all five values in order 
+	rubyBook := Product{"Learn Ruby", 10043, 100, true, 12}
+
+	if goBook.isAvailable{
+		fmt.Printf("%d copies of %s are available\n", goBook.inventoryLeft, goBook.name)
+	}
+
+	if pythonBook.isAvailable{
+		fmt.Printf("%d copies of %s are available\n", pythonBook.inventoryLeft, pythonBook.name)
+	}
+
+	if rubyBook.isAvailable{
+		fmt.Printf("%d copies of %s are available\n", rubyBook.inventoryLeft, rubyBook.name)
+	}
+}
 
 
 
