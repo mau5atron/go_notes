@@ -755,6 +755,489 @@ default:
 // The program prints the following: 
 // integer <= 6 integer <= 7 integer <= 8 default case
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+// Functions +++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+func // keyword is used to define a function
+
+func funcName(input1 type1, input2 type2)(ouput1 type1, output2 type2){
+	// function body
+	// multi-value return
+	return value1, return value2
+}
+
+// - Functions can have zero, one or more arguments. The argument type comes after 
+//   the argument name and arguments are separated by ','
+
+// - Functions can return multiple values
+
+// - There are two return values named output1 and output2, you can omit their names and 
+//   use their type only
+
+// - If there is only noe return value and you omitted the name, you do not 
+//   need brackets for the return values
+
+// - If the function does not have return valuesm you can omit the return parameters
+//   altogether
+
+// - If the function has return values, you have to use the 'return' statement soewhere
+//   in the body of the function
+
+
+// -- A simple program that calculates maximum value --
+
+package main
+import 'fmt'
+
+// returns the greater value between a and b
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	// else 
+	return b
+}
+
+
+func main(){
+	x := 3
+	y := 4
+	z := 5
+
+	max_xy := max(x, y) // calls function max(x, y)
+	max_xz := max(x, z) // calls function max(x, z)
+
+	// %d interpolates in the variables x, y, max_xy etc.
+	fmt.Println("max(%d, %d) = %d\n", x, y, max_xy)
+	fmt.Println("max(%d, %d) = %d\n", x, z, max_xz)
+	fmt.Println("max(%d, %d) = %d\n", y, z, max(y,z)) // calls the function
+}
+
+
+
+// In a function call, if two or more arguments have the same data type, then we
+// can put the data type only after the last argument.
+
+func max(a, b int, c, d string): // there are four arguements in this line
+// a,b:integer, c,d:string
+
+
+
+
+
+// MULTI-VALUE RETURN
+
+package main 
+import "fmt"
+
+// return results of A + B and A * B
+
+func SumandProduct(A, B int) (int, int){
+	return A + B, A * B
+}
+
+func main(){
+	x := 3
+	y := 4
+
+	xPLUSy, xTIMESy := SumandProduct(x, y)
+
+	fmt.Println("%d + %d = %d\n", x, y, xPLUSy)
+	fmt.Println("%d * %d = %d\n", x, y, xTIMESy)
+}
+
+// SumandProduct will return two values wothout names
+// Go allows us to have named return arguments. By using name arguments, the respective 
+// variables are returned automatically, we would only need to use 'return' to do so.
+
+// NOTE: If functions are going to be used outside of current programs, it is better 
+// to explicitly write return statements.
+
+func SumandProduct(A, B int) (add int, multiplied int) {
+	add = A + B
+	multiplied = A * B
+	return
+}
+
+// Since the return arguments are named, the function automatically returns them
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// VARIADIC ARGUMENTS TO FUNCTIONS
+
+// When we do not know how many arguments can be passed, we use 'variadic arguments' 
+// instead
+
+func myFunc(arg ...int){
+
+}
+
+// arg ...int tells Go that this is a function that has variable arguments. Notice that 
+// these arguments are type int 
+// In the body of a function, the arg becomes a slice of int.
+
+for _, n := range arg {
+	fmt.Println("Adn the number is: %d", n)
+}
+
+
+
+// PASS BY VALUE AND POINTERS
+
+// Arguments are passed by value to the functions, the argument change inside the function
+// does not affect the arguments used to call the function.
+
+package main 
+import "fmt"
+
+// function that adds 1 to a
+
+func add1(a int) int{
+	a = a + 1 // changes value of a 
+	return a // returns new value of a
+}
+
+func main(){
+	x := 3
+
+	fmt.Println("x = ", x) // prints out x = 3
+
+	x1 := add1(x) // calls the function add1(x)
+
+	fmt.Println("x+1 = ", x1) // prints out "x+1 = 4"
+	fmt.Println("x = ", x) // prints out "x = 3"
+}
+
+
+// Whats goin on?
+// Original value of x does not changes as we are passing x as a value
+// The function add1 creates a copy of x. 
+// When we want to modify the arguments value, we use a pass by reference using pointers
+
+// Remember that a variable is nothing more than a pointer to a location is memory. 
+// Each variable has a unique memory address. If we want to change the value of a variable, we must change its memory address
+// Therefore, the function add1 has to know the memory address of x in order to change its value. 
+
+// Below we pass &x to the function and change the argument's type to the pointer type*int. Be aware that we pass a copy of the pointer, not the copy of value.
+
+
+package main 
+import "fmt"
+// Same function as before, adds 1 to a
+
+func add1(a *int) int{
+	*a = *a+1 // changed the value of a
+	return *a // returns new value of a
+}
+
+func main(){
+	x := 3 
+	fmt.Println("x = ", x) // should print "x = 3"
+	x1 := add1(&x) // calls function add1(&x) - passes memory address of x
+
+	fmt.Println("x+1 = ", x1) // should print out "x+1 = 4"
+	fmt.Println("x = ", x) // prints out "x = 4"
+}
+
+
+// -- Advantage of pointers -- 
+
+// - Allows us to use more functions to operate on one varible
+// - Low cost by passing memory address(8 bytes), copy is not an efficient way, both in terms of time and space, to pass variables.
+// - string, slice and map are reference types, so they use pointers when passsing to functions by default. 
+// **BIG NOTE**: IF the length of a slice needs to be changed, pointers have to be passed explicitly 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// defer
+
+// 'Defer' postpones the execution of a function till the calling function has finished executing. You can have many 
+// 'defer' statements in one function; HOWEVER ; When the program reaches the end they will be executed in reverse order.
+// As an example, in the case where the program opens some resource files, these files would have to be closed before the function can return with errors. 
+// Some exaples below:
+
+
+
+
+
+
+
+
+
+func ReadWrite() bool {
+	file.Open("file")
+	// perform some work
+
+	if failureX {
+		file.Close()
+		return false
+	}
+
+	if failureY {
+		file.Close()
+		return false
+	}
+
+	file.Close()
+	return true
+}
+
+// Several lines of repeated code as show above can be refactored with 'defer', which not only makes it cleaner, but easier to understand
+
+// Same code, refactored
+
+func ReadWrite() bool {
+	file.Open("file")
+
+	defer file.Close()
+	if failureX {
+		return false
+	}
+
+	if failureY {
+		return false
+	}
+	
+	return true
+}
+
+// If there are more than one defers, they will execute by reverse order. The following example will print 4 3 2 1 0
+
+for i := 0; i < 5; i++ {
+	defer fmt.Printf("%d", i)
+}
+
+// FUNCTIONS AS VALUES AND TYPES
+
+// Functions are also variables in Go, we can use 'type' to define them. Functions that have the same signature can be seen as the same type.
+
+type typeName func(input1 inputType1, input2 inputType2, ...) (result1 resultType1...)
+
+// This makes Go a functional language as functions are a first class citizen.
+
+package main
+import "fmt"
+
+type testInt func(int) bool // define a function type of varible = boolean
+
+func isOdd(integer int) bool {
+	if integer%2 == 0 {
+		return false
+	}
+	return true
+}
+
+func isEven(integer int) bool {
+	if integer%2 == 0 {
+		return true
+	}
+	return false
+}
+
+// passing the function `f` as an arument to another function 
+
+func filter(slice []int, f testInt) []int {
+	var result []int
+	for _, value := range slice {
+		if f(value){
+			result = append(result, value)
+		}
+	}
+	return result
+}
+
+func main(){
+	slice := []int {1, 2, 3, 4, 5, 7}
+	fmt.Println("slice = ", slice)
+	odd := filter(slice, isOdd) // uses functions as values
+	fmt.Println("Odd elements of slices are: ", odd)
+	even := filter(slice, isEven)
+	fmt.Println("Even the elements of slices are: ", even)
+}
+
+
+// It is useful to have interfaces. testInt serves as a variable that has a function as type and the returned 
+// values and arguments of 'filter' are the same as those of testInt.
+// This means we can have complex logic while maintaining flexibility 
+
+// Panic and Recover
+
+// Go does not have try-catch structure such as java.. Instead of throwing exceptions, Go uses 'panic' and 'recover' to deal with errors.
+// However, you should not use 'panic' as much.
+
+// 'panic' is a built-in function to break the normal flow of programs and get into panic status. When a function 'F' calls 'panic', 'F' will not conintue 
+// to execute but its 'defer' functions will continue to execute. 
+// Afterwards, F goes back to break point which caused the panic status. 
+// The program will not terminate until all of these functions reurn with panic to the first level of that goroutine. 'panic' can 
+// be produced by calling 'panic' in the program, and some errors also cause 'panic' like array access out of bounds error
+
+
+// 'recover' is a built-in function to recover 'goroutines' from the panic status. Calling recover in defer functions is useful because normal functions
+// will not be executed when the program is in the 'panic' status.
+
+// It catches 'panic' values if the program is in the panic status, and it gets nil if the program is not in panic status.
+
+
+
+// The following example shows how to utilize 'panic'
+var user = os.Getevn("USER")
+
+func init(){
+	if user == "" {
+		panic("no value for $USER")
+	}
+}
+
+
+// The following example shows how to check 'panic'
+
+func throwsPanic(f func())(b bool) {
+	defer func(){
+		if x := recover(); x != nil {
+			b = true
+		}
+	}
+	f() // if f causes panic it will recover return
+}
+
+
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// MAIN AND INIT FUNCTIONS
+
+// Go has two retention which are called main and init.
+// - Init can be used in all packages
+// - Main can only be used in the main package
+// Both functions cannot have arguments or return values
+// Although many init functions can be written in one package, only write one init function per package.
+
+// Go programs automatically call init() and main() functions, so there is not need to call them.
+// For every package, the init() function is optional, but package main() has one and ONLY one main() function
+
+/*
+	Programs utilize and begin execution from the main package.
+	IF the main package imports other packages, they will be imported in the compile time. 
+
+	if one package is imported many times, it will be only compiled once.
+
+	After importing packages, programs will initialze the constants and variables within the imported packages, then execute the init() function it it 
+	exists.
+
+*/
+
+
+// IMPORT
+
+// import is very often used in Go programs
+
+import(
+	"fmt"
+)
+
+// Methods of fmt are called as follows: 
+
+fmt.Println("hello world")
+
+// fmt is from Go standard library, is is located within $GOROOT/pkg.
+// Go supports third-party packages in two ways
+
+/*
+	1. Relative path import "./model" - load package in the same directory, NOT RECOMMENDED
+
+	2. Absolute path import "shorturl/model" - load package in path "$GOPATH/pkg/shorturl/model"
+*/ 
+
+/*
+	There are some special operators when we import packages, and beginners are always confused by these operators(LOL not me 😹👌)
+
+	- Dot operator 
+	  -  A common way to import packages
+*/ 
+
+
+import(
+	. "fmt"
+)
+
+ 
+// The dot operator mmeans you can omit the package name when you call functions inside of that package. 
+// Now => 
+	fmt.Printf("Hello world") 
+	// becomes 
+	Printf("Hello world")
+
+// Alias Operation
+	// changes the name of the package that was imported when we call functions that belong to that package
+import(
+	f "fmt"
+)
+ 
+// Now 
+fmt.Printf("Hello world")
+// becomes
+f.Printf("Hello world")
+
+// _operator
+
+// Difficult operator to understand but here we got !
+
+import(
+	"database/sql"
+	_ "github.com/ziutek/mysql/godrv"
+)
+	
+/*
+	The _ operator actually means we just want to import that package and execute its init function, not sure if we want to use the functions
+	belonging to that package
+*/ 
+
+
+// STRUCT
+
+// Basics of Struct 
+
+/*
+	Struct can be used to define custom data types in Go. Often times, we cannot handle the real world information using the standard 
+	data types which come with some languages.
+
+	While it is not impossible. it is highly inefficient.
+
+	Example: 
+
+		- in an eCommerce application, we have the ShoppingCart in which we put products for checkout.
+*/ 
+
+type Product struct {
+	name 			string
+	itemID 			int
+	cost 			float32
+	isAvailable 	bool
+	inventoryLeft 	int
+}
+
+// There are a lot of attrubutes of Product, its name, the ID used internally, the cost, number of products in stock, etc.
+/* 
+	'name' -- is a string used to store a product's name
+	'itemID' -- is an int used to store for reference. 
+	'cost' -- is a float 32 of the item
+	'isAvailable' -- is a 'bool' which is true if the item is in stock, false, otherwise.
+*/ 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
