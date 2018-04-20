@@ -479,7 +479,7 @@ numbers["ten"] = 10
 numbers["three"] = 3
 
 fmt.Printf("The third number is: ", numbers["three"])
-// The third number is 3
+// prints out => The third number is 3
 
 // Some things to be careful about when using map:
 
@@ -490,7 +490,42 @@ fmt.Printf("The third number is: ", numbers["three"])
 // - It is easy to change the value through map. Use numbers["one"]=11 to change
 		// the value of key one to 11.
 
-// You can use form key:val to intialize map's
+// You can use form key:val to intialize map's values
+// Built-in methods to check if keys exist: 
+
+
+
+// Use 'delete' to delete an element in map.
+// First
+// initialze a map
+
+rating := map[string]float32 {"C":5, "Go":4.5, "Python":4.5, "C++":2}
+
+// map has two return values, the second return value will return false if the 
+// key does not exist. Otherwise it returns true.
+
+csharpRating, ok := rating["C#"]
+
+if ok {
+	fmt.Println("C# is in the map and its rating is ", csharpRating)
+} else {
+	fmt.Println("We have no rating associated with C# in the map")
+}
+
+delete(rating, "C") // deletes the element with key 'C'
+
+// REMEMBER - Map is a reference type. Any changes to the data affects any pointers
+// i.e slices, maps pointing to the same data.
+
+// One more example:
+
+m := make(map[string]string)
+
+m["Hello"] = "Bonjour"
+m1 := m
+m1["Hello"] = "Salut" // m1 changes the value of "Hello" to "Salut"
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
