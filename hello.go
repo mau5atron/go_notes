@@ -388,25 +388,27 @@ bSlice = array[5:] // bSlice = array[5:10] => f, g, h, i, j
 
 aSlice = array[:] // aSlice = array[0:10] has all element
 
+
+
+
 // slice from slice 
 
 aSlice = array[3:7] // aSlice has elements d, e, f, g, h
 
 // bSlices of aSlice //
 bSlice = aSlice[1:3] // aSlice is still d, e, f ,g ,h
-										 // bSlice will equal aSlice[1], aSlice[2]
-										 // bSlice == e, f
+// bSlice will equal aSlice[1], aSlice[2]
+// bSlice == e, f
 
 bSlice = aSlice[:3] // aSlice is still d, e, f, g, h
-										// bSlice will equal aSlice[0], aSlice[1], aSlice[2]
-										// bSlice == d, e, f
+// bSlice will equal aSlice[0], aSlice[1], aSlice[2]
+// bSlice == d, e, f
 
 bSlice = aSlice[0:5] // bSlice == d, e, f, g, h
 
 bSlice = aSlice[:] // aSlice is still d, e, f, g, h
-									 //bSlice == d, e, f, g, h
+//bSlice == d, e, f, g, h
 
-//
 
 
 // slice is a reference type, any changes will affect other variables
