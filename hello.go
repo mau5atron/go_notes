@@ -1435,6 +1435,145 @@ func main(){
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+// OBJECT-ORIENTED WITH GO
+
+/*
+	OBject oriented languages allow programmers to declare a function inside the class definition
+	Go does not allow us to do that, instead we have to declare a method on a struct via a special syntax.
+*/ 
+
+
+// methods
+	// We defined a "rectangle" struct and we want to declare its area. Normally we would create a function, pass the struct's 
+	// instance and calculate the area.
+
+package main
+
+import "fmt"
+
+type Rectangle struct {
+	width, height float32
+}
+
+
+func area(r Rectangle) float32 {
+	return r.width*r.height
+}
+
+func main(){
+	r1 := Rectangle{12, 2}
+	r2 := Rectangle{9, 4}
+	fmt.Println("Area of r1 is: ", area(r1))
+	fmt.Println("Area of r2 is: ", area(r2))
+}
+
+/* 
+	A method is affiliated with the type. It has the same syntax as functions do except for an additional parameter after the func keyword
+	 called the receiver, which is the main body of that method.
+
+	 Using the same example, Rectangle.area() belongs directly to rectangle, instead of as a peripheral function. More specifically,
+	 length, width, and area() all belong to rectangle.
+
+
+	 Quote from Rob Pike: 
+	 	"A method is a function with an implicit first argument, called a receiver."
+*/
+
+
+// Syntax of a method 
+
+func (r ReceiverType) funcName(parameters)(results)
+// r is the argument block |r|
+
+// Above example using a method instead
+
+package main
+
+import(
+	"fmt"
+	"math"
+)
+
+type Rectangle struct {
+	width, height float32
+}
+
+type Circle struct {
+	radius float32
+}
+
+func (r Rectangle) area() float64 {
+	return r.width*r.height
+} 
+
+func (c Circle) area() float64 {
+	return c.radius * c.radius * math.Pi
+}
+
+func main(){
+	r1 := Rectangle{12, 2}
+	r2 := Rectangle{9, 4}
+	c1 := Circle{10}
+	c2 := Circle{25}
+
+	fmt.Println("Area of r1 is: ", r1.area())
+	fmt.Println("Area of r2 is: ", r2.area())
+	fmt.Println("Area of c1 is: ", c1.area())
+	fmt.Println("Area of c2 is: ", c2.area())
+}
+
+// Note for using methods: 
+
+/* 
+	- If the name of methods are the same but they don't share the same receivers, they are not the same
+	- Methods are able to access fields within receivers
+	- Use . to call a method in the struct, the same way fields are called
+*/ 
+
+// CUSTOM DATA TYPES
+
+// Use the following format to define a custom data type
+
+	type typeName typeLiteral
+
+// Examples
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
