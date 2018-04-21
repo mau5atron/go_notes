@@ -1538,34 +1538,201 @@ func main(){
 
 // Examples
 
+type ages int
+
+type money float32
+
+type months map[string]int
+
+m := months {
+	"January":31,
+	"February":28,
+	"December":31
+}
+
+// full example
+
+package main
+import(
+	"fmt"
+)
+
+const(
+	WHITE = iota
+	BLACK 
+	BLUE 
+	RED
+	YELLOW
+)
+
+type Color byte
+
+type Box struct {
+	width, height, depth float64
+	color Color
+}
+
+type BoxList []Box // slice of boxes
+
+func (b Box) Volume() float64 {
+	return b.widht * b.height 
+}
+
+func (b *Box) SetColor(c Color){
+	b.color = c
+}
+
+func (b1 BoxList) BiggestColor() Color{
+	v := 0.00
+	k := Color(WHITE)
+	for _, b := range b1 {
+		if b.Volume() > v {
+			v = b.Volume()
+			k = b.color
+		}
+ 	}
+
+ 	return k
+}
+
+func (b1 BoxList) PaintItBlack(){
+	for i, _ := range b1 {
+		b1[i].SetColor(BLACK)
+	}
+}
+
+
+func (c Color) String() string {
+	strings := []string {"WHITE", "BLACK", "BLUE", "RED", "YELLOW"}
+	return strings[c]
+}
+
+func main(){
+	boxes := BoxList {
+		Box{4, 4, 4, RED},
+		Box{10, 10, 1, YELLOW},
+		Box{1, 1, 20, BLACK}, 
+		Box{10, 10, 1, BLUE},
+        Box{10, 30, 1, WHITE},
+		Box{20, 20, 20, YELLOW},
+	}
+
+	fmt.Printf("We have %d boxes in our set\n", len(boxes))
+	fmt.Println("The volume of the first one is ", boxes[0].Volume(), "cm")
+	fmt.Println("The color of the last one is ", boxes[len(boxes)-1].color.String())
+	fmt.Println("The biggest one is ", boxes.BiggestColor().String())
+	fmt.Println("Let's paint them all black")
+	boxes.PaintItBlack()
+	fmt.Println("The color of the second one is ", boxes[1].color.String())
+
+	fmt.Println("Obviously, now, the biggest one is ", boxes.BiggestColor().String())
+}
+
+// We define some constants and customized types
+
+/*
+	- Use 'Color' as alias of byte
+	- Define a struct 'Box' which has fields height, width, length and color.
+	- Define a struct BoxList which has box as its field
+*/ 
+
+// Then we defined some methods for our customized types.
+
+/*
+	- Volume() uses Box as its receiver and returns the volume of Box.
+	- SetColor(c Color) changes the box's color.
+	- BiggestColor() returns the color which has the biggest volume.
+	- PaintItBlack sets color for all Box in BoxList to black.
+	- String() use Color as its receiver, returns the string format of color name.
+ */ 
 
 
 
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// INTERFACE
+
+/*
+	One of the subltest design features in Go are interfaces. 
+
+	What is an interface?
+
+	An interface is a set of methods that we use to define a set of actions.
+*/ 
+
+// An interface defines a set of methods, so if a type implements all the methods we say that it implements the interface.
+
+type Human struct {
+	// fields for Human
+	name string
+	age int
+	phone string
+}
+
+type Student struct {
+	// student inherits fields from Human
+	Human
+
+	school string
+	loan float32
+}
+
+type Employee struct {
+	// inherits from Human
+	Human
+	company string
+	money float32
+}
 
 
+func (h *Human) SayHi(){
+	fmt.Printf("Hi, I am %s you can call me on %s\n", h.name, h.phone)
+}
 
+func (h *Human) Sing(lyrics string){
+	fmt.Println("La la, la, la, la", lyrics)
+}
 
+func (h *Human) Guzzle(beerStein string){
+	fmt.Println("Guzzle Guzzle Guzzle...", beerStein)
+}
 
+// Employee overloads SayHi
 
+func (e *Employee) SayHi(){
+	fmt.Printf("Hi, I am %s, I work at %s. Call me on %s\n", e.name, e.company, e.phone)
+}
 
+func (s *Student) BorrowMoney(amount float32){
+	s.loan += amount // again and again
+}
 
+func (e *Employee) SpendSalary(amount float32){
+	e.money -= amount 
+}
 
+// defining an interface
 
+type Men interface {
+	SayHi()
+	Sing(lyrics string)
+	Guzzle(beerStein string)
+}
 
+type YoungChap interface {
+	SayHi()
+	Sing(song string)
+	BorrowMoney(amount float32)
+}
 
+type ElderGent interface {
+	SayHi()
+	Sing(song string)
+	SpendSalary(amount float32)
+}
 
-
-
-
-
-
-
-
-
-
-
-
+// An interface can be implemented by any type, and one type can implement many interfaces simultaneously 
 
 
 
