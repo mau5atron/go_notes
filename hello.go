@@ -1307,22 +1307,133 @@ func main(){
 }
 
 
+// Embedded fields in struct 
+
+// Earlier we saw how to define a Struct with field names and type.
+// Embedded fields can be thoght of as 'subclass' and 'superclass' in object oriented programming
+
+// When the embedded field is a struct, all the fields in that struct will implicitly be in the fields in the struct in which it has been embedded 
+
+// Example: 
+
+// file: code/Struct/Human/human.go
+
+package main
+import  "fmt"
+
+type Human struct{
+	name 	string
+	age 	int
+	weight 	int
+}
+
+
+type Student struct {
+	Human // embedded field, it means Student struct - kind of like inheritance from a class
+	specialty string // includes all fields that human has
+}
+
+func main(){
+ 	// intializes a student
+ 	mark := Student{Human{"Mark", 25, 120}, "Computer Science"}
+ 	// specialty string is == "Computer Science"
+// in ruby => mark = Student.new("Mark", 25, 120, "Computer Science")
+
+
+
+ 	// Accessing fields from mark
+
+ 	fmt.Println("His name is ", mark.name)
+ 	fmt.Println("His age is ", mark.age)
+ 	fmt.Println("His weight is ", mark.weight)
+ 	fmt.Println("His specialty is ", mark.specialty)
+
+ 	// Modifying fields values
+
+ 	mark.specialty = "AI" // changes specialty
+
+ 	mark.age = 46 // marks new age is 46
+
+ 	mark.weight += 60 // mark gained 60 lbs
+}
 
 
 
 
+// All types in Go can be used as embedded fields 
+
+// file:code/Struct/Skills/skills.go
+
+import "fmt"
+
+type Skills []string
+
+type Human struct {
+	name 		string
+	age 		int
+	weight 		int
+}
+
+type Student struct {
+	Human // struct as embedded field 
+	Skills // string slice as embedded field 
+	int // built-in type as embedded field
+	specialty string
+}
+
+func main(){
+	// initialize student Jane
+
+	jane := Student{Human: Human{"Jane",  35, 100}, specialty: "Biology"}
+
+	// accessing fields 
+
+	fmt.Println("Her name is ", jane.name)
+	fmt.Println("Her age is ", jane.age)
+	fmt.Println("Her weight is ", jane.weight)
+	fmt.Println("Her specialty is ", jane.specialty)
+
+	// modifying skills
+
+	jane.Skills = []string{"anatomy"}
+	fmt.Println("Her skills are ", jane.Skills)
+	fmt.Println("She has acquired two new skills ") 
+	jane.Skills = append(jane.Skills, "physics", "golang")
+
+}
 
 
 
+// ANOTHER ONE
+
+package main
+
+import "fmt"
+
+type Human struct {
+	name 		string
+	age 		int
+	phone 		string
+}
+
+type Employee struct {
+	Human // embedded field human -- inheritance from human, Employe is also a human( ie has work phone, age , name)
+	specialty 	string 	
+	phone 		string // phone is in employee
+}
+
+func main(){
+	Bob := Employee{Human{"Bob", 34, "777-444-XXXX"}, "Designer", "333-222"}
+
+	fmt.Println("Bob's work phone is: ", Bob.phone)
+
+	// access phone in human
+	fmt.Println("Bob's personal phone is: ", Bob.human.phone)
+}
 
 
 
-
-
-
-
-
-
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
